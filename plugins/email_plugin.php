@@ -8,10 +8,10 @@ plugin_listener('plugin_user_settings','email_plugin_user_settings');
 function email_plugin_settings(){
   return array( 
               'smtp_server' => array('friendly_name' => 'SMTP Server', 
-                                     'default' => 'smtp.gmail.com',
+                                     'default' => 'pobox.cheggnet.com',
                                      'type' => 'string'),
               'smtp_port' => array('friendly_name' => 'SMTP Port',
-                                   'default' => 465, 
+                                   'default' => 25, 
                                    'type' => 'integer'),
               'smtp_user' => array('friendly_name' => 'SMTP Username',
                                    'default' => 'example@example.com',
@@ -20,7 +20,7 @@ function email_plugin_settings(){
                                    'default' => 'example',
                                    'type' => 'password'),
               'email_from' => array('friendly_name' => 'Alert Email From Address',
-                                    'default' => 'tattle@example.com',
+                                    'default' => 'tattle@chegg.com',
                                     'type' => 'email'),
               'email_from_display' => array('friendly_name' => 'Alert Email Display Name',
                                             'default' => 'Tattle Processor',
@@ -49,8 +49,9 @@ function email_plugin_notify($check,$check_result,$subscription,$alt_email=false
   $email = new fEmail();
   // This sets up fSMTP to connect to the gmail SMTP server
   // with a 5 second timeout. Gmail requires a secure connection.
-  $smtp = new fSMTP(sys_var('smtp_server'), sys_var('smtp_port'), TRUE, 5);
-  $smtp->authenticate(sys_var('smtp_user'), sys_var('smtp_pass'));
+  $smtp = new fSMTP(sys_var('smtp_server'), sys_var('smtp_port'), FALSE, 5);
+  fCore::debug("Connecting to:" . sys_var('smtp_server') . ":" . sys_var('smtp_port'),FALSE);
+  //$smtp->authenticate(sys_var('smtp_user'), sys_var('smtp_pass'));
   if ($alt_email) {
     $email_address = usr_var('alt_email',$user->getUserId());
   } else {
@@ -74,5 +75,7 @@ Error Threshold is : ". $check->getError() . "
     $message_id = $email->send($smtp);
   } catch ( fConnectivityException $e) { 
     fCore::debug("email send failed",FALSE);
+    $e->printMessage();
+    $e->printTrace();
   }
 }

@@ -58,6 +58,7 @@ function plugin_listener($hook,$function){
 
 function subarray_average($data_array) {
   $count = count($data_array); 
+  if ($count <= 0) $count=1;
   $total = '';
   foreach ($data_array as $value) {
     $total = $total + $value[0]; 

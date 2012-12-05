@@ -8,7 +8,8 @@ $GLOBALS['DATABASE_PASS'] = 'dbpass';
 
 // GRAPHITE and GANGLIA Settings
 $GLOBALS['PRIMARY_SOURCE'] = 'GRAPHITE'; //Currently can be GRAPHITE or GANGLIA
-$GLOBALS['GRAPHITE_URL'] = 'http://localhost:8000';
+//$GLOBALS['GRAPHITE_URL'] = 'http://localhost:8000';
+$GLOBALS['GRAPHITE_URL'] = 'http://metrics01.prod2.cloud.cheggnet.com';
 $GLOBALS['GANGLIA_URL'] = 'http://localhost:8000/ganglia2';
 
 // Graph Styling
@@ -19,14 +20,14 @@ $GLOBALS['GRAPH_HEIGHT'] = '308';
 $GLOBALS['WHISPER_DIR'] = '/opt/graphite/storage/whisper/';
 
 // Flourish Related Settings
-$GLOBALS['FLOURISHLIB_PATH'] = '/inc/flourish/'; 
+$GLOBALS['FLOURISHLIB_PATH'] = '/www/prod/Graphite-Tattle/inc/flourish/'; 
 $GLOBALS['SESSION_FILES'] = '/tmp';
 
 // Bootstrap Settings
-$GLOBALS['BOOTSTRAP_PATH'] = '/bootstrap/';
+$GLOBALS['BOOTSTRAP_PATH'] = '/www/prod/Graphite-Tattle/inc/bootstrap/';
 
 // Allow HTTP auth as user management 
-$GLOBALS['ALLOW_HTTP_AUTH'] = false;
+$GLOBALS['ALLOW_HTTP_AUTH'] = true;
 
 // Number of elements per page (checks, alerts, subscriptions)
 $GLOBALS['PAGE_SIZE'] = 15;

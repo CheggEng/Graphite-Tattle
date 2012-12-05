@@ -47,6 +47,7 @@ foreach ($checks as $check) {
     }
     // If It's been more then the Repeat Delay or the Status has changed
     if ($next_check->lt($end) || $check->getLastCheckStatus() != $result) {
+    //if (1) {
       fCore::debug("Send Notification \n",FALSE);
       fCore::debug("State :" . $result . ":\n",FALSE);
       $check_result = new CheckResult();
