@@ -4,16 +4,16 @@ include 'inc/init.php';
 fAuthorization::requireLoggedIn();
 
 fRequest::overrideAction();
-$breadcrumbs[] = array('name' => 'Checks', 'url' => Check::makeUrl('list'), 'active'=> false);
-
 $action = fRequest::getValid('action', array('list', 'add', 'edit', 'delete'));
-
-$sort = fCRUD::getSortColumn(array('name','target','warn','error','status','timestamp','count'));
+$check_type = fRequest::getValid('type', array('predictive', 'threshold'));
+$sort = fCRUD::getSortColumn(array('name','target','warn','error','status','timestamp','count','regression_type','sample','baseline','over_under','visibility','number_of_regressions'));
 $sort_dir  = fCRUD::getSortDirection('asc');
 
 $check_id = fRequest::get('check_id', 'integer');
 
-$check_list_url = Check::makeURL('list');
+$check_list_url = Check::makeURL('list', $check_type);
+
+$breadcrumbs[] = array('name' => ucfirst($check_type) . ' Checks', 'url' => Check::makeURL('list', $check_type), 'active'=> false);
 // --------------------------------- //
 if ('delete' == $action) {
   try {
@@ -66,7 +66,11 @@ if ('delete' == $action) {
     fMessaging::create('error', fURL::get(), $e->getMessage());	
   }
 
-  include VIEW_PATH . '/add_edit.php';
+  if ($check_type == 'threshold') {
+    include VIEW_PATH . '/add_edit.php';
+  } elseif ($check_type == 'predictive') {
+    include VIEW_PATH . 'add_edit_predictive_check.php';
+  }
 	
 // --------------------------------- //
 } elseif ('add' == $action) {
@@ -86,10 +90,20 @@ if ('delete' == $action) {
     }	
   } 
 
-  include VIEW_PATH . '/add_edit.php';	
-	
+  if ($check_type == 'threshold') {
+    include VIEW_PATH . '/add_edit.php';	
+  } elseif ($check_type == 'predictive') {
+    include VIEW_PATH . 'add_edit_predictive_check.php';
+  }
+
 } else {
   $page_num = fRequest::get('page', 'int', 1);
-  $checks = Check::findAll($sort,$sort_dir, $GLOBALS['PAGE_SIZE'], $page_num);
-  include VIEW_PATH .'/list_checks.php';
+  $checks = Check::findAll($check_type,$sort,$sort_dir);
+
+  if ($check_type == 'threshold') {
+    include VIEW_PATH . '/list_checks.php';
+  } elseif ($check_type == 'predictive') {
+    include VIEW_PATH . 'list_predictive_checks.php';
+  }
+
 }

@@ -1,6 +1,7 @@
 <?
 // Include main class loading config file
-define('TATTLE_ROOT', str_replace(array('ajax'),'',getcwd()));
+//define('TATTLE_ROOT', str_replace(array('ajax'),'',getcwd()));
+define('TATTLE_ROOT','/var/www/Tattle');
 $web_root = dirname($_SERVER['PHP_SELF']);
 if ($web_root != '/') {
   $web_root .= '/';
@@ -12,6 +13,7 @@ define('JS_CACHE', TATTLE_ROOT . '/js_cache/');
 
 include TATTLE_ROOT . '/inc/includes.php';
 include TATTLE_ROOT . '/inc/functions.php';
+include TATTLE_ROOT . '/statistical_functions.php';
 include TATTLE_ROOT . '/inc/config.php';
 include TATTLE_ROOT . '/inc/constructor_functions.php';
 
@@ -26,11 +28,13 @@ $tmpl = new fTemplating(VIEW_PATH);
 //}
 $tmpl->add('css','bootstrap/bootstrap.min.css'); 
 $tmpl->add('css','assets/css/jquery-ui.css');
+$tmpl->add('css','assets/css/tattle.css');
 
 $tmpl->add('js','assets/js/jquery.min.js'); 
 $tmpl->add('js','assets/js/jquery-ui.min.js'); 
 $tmpl->add('js','assets/js/jquery.collapsible.js'); 
 $tmpl->add('js','assets/js/jquery.graphite.js');
+$tmpl->add('js','assets/js/tattle.js');
 
 $tmpl->add('js','bootstrap/js/bootstrap-modal.js');
 $tmpl->add('js','bootstrap/js/bootstrap-twipsy.js');
