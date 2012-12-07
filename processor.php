@@ -29,8 +29,10 @@ foreach ($checks as $check) {
   if (count($data) > 0) {
     $title = $check->prepareName();
     fCore::debug('Processing :' . $title . ":\n",FALSE);
+	print "Processing $title\n";
     $check_value = Check::getResultValue($data,$check);
     fCore::debug("Result :" . $check_value . ":\n",FALSE);
+	print "Result : $check_value\n";
     $result = Check::setResultsLevel($check_value,$check);
     fCore::debug("Check Value:" . $result . ":\n",FALSE);
     if (is_null($check->getLastCheckTime())) {
