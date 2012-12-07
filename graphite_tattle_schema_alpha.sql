@@ -41,7 +41,7 @@ CREATE TABLE `checks` (
   `target` varchar(1000) NOT NULL,
   `error` decimal(20,3) NOT NULL,
   `warn` decimal(20,3) NOT NULL,
-  `sample` varchar(255) NOT NULL DEFAULT '-5minute',
+  `sample` varchar(255) NOT NULL DEFAULT '10',
   `baseline` varchar(255) NOT NULL DEFAULT 'average',
   `visibility` int(11) NOT NULL DEFAULT '0',
   `over_under` int(11) NOT NULL DEFAULT '0',
@@ -50,6 +50,9 @@ CREATE TABLE `checks` (
   `last_check_value` int(11) DEFAULT NULL,
   `last_check_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `repeat_delay` int(11) NOT NULL DEFAULT '60',
+  `type` varchar(255) NOT NULL,
+  `regression_type` varchar(255) DEFAULT NULL,
+  `number_of_regressions` int(11) DEFAULT NULL,
   PRIMARY KEY (`check_id`),
   UNIQUE KEY `user_id` (`user_id`,`name`)
 ) CHARSET=utf8;
@@ -98,7 +101,6 @@ CREATE TABLE `subscriptions` (
   `threshold` int(11) NOT NULL DEFAULT '0',
   `method` varchar(255) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
-  `frequency` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`subscription_id`),
   KEY `check_id` (`check_id`),
   KEY `user_id` (`user_id`)
