@@ -31,21 +31,21 @@ if ('delete' == $action) {
       foreach ($check_results as $check_result) {
         $check_result->delete();
       }
-      fMessaging::create('success', fURL::get(), 
+      fMessaging::create('success', fURL::get(),
                          'The check ' . $obj->getName() . ' was successfully deleted');
-      fURL::redirect($check_list_url);	
+      fURL::redirect($check_list_url);
     }
   } catch (fNotFoundException $e) {
-    fMessaging::create('error', fURL::get(), 
+    fMessaging::create('error', fURL::get(),
                        'The check requested, ' . fHTML::encode($date) . ', could not be found');
     fURL::redirect($check_list_url);
   } catch (fExpectedException $e) {
-    fMessaging::create('error', fURL::get(), $e->getMessage());	
+    fMessaging::create('error', fURL::get(), $e->getMessage());
   }
-	
-  include VIEW_PATH . '/delete.php';	
 
-// --------------------------------- // 
+  include VIEW_PATH . '/delete.php';
+
+// --------------------------------- //
 } elseif ('edit' == $action) {
   try {
     $check = new Check($check_id);
@@ -53,57 +53,57 @@ if ('delete' == $action) {
       $check->populate();
       fRequest::validateCSRFToken(fRequest::get('token'));
       $check->store();
-			
+
       fMessaging::create('affected', fURL::get(), $check->getName());
-      fMessaging::create('success', fURL::get(), 
+      fMessaging::create('success', fURL::get(),
                          'The check ' . $check->getName(). ' was successfully updated');
     }
   } catch (fNotFoundException $e) {
-    fMessaging::create('error', fURL::get(), 
-                       'The check requested, ' . fHTML::encode($check_id) . ', could not be found');	
+    fMessaging::create('error', fURL::get(),
+                       'The check requested, ' . fHTML::encode($check_id) . ', could not be found');
     fURL::redirect($check_list_url);
   } catch (fExpectedException $e) {
-    fMessaging::create('error', fURL::get(), $e->getMessage());	
+    fMessaging::create('error', fURL::get(), $e->getMessage());
   }
 
   if ($check_type == 'threshold') {
     include VIEW_PATH . '/add_edit.php';
   } elseif ($check_type == 'predictive') {
-    include VIEW_PATH . 'add_edit_predictive_check.php';
+    include VIEW_PATH . '/add_edit_predictive_check.php';
   }
-	
+
 // --------------------------------- //
 } elseif ('add' == $action) {
   $check = new Check();
-  if (fRequest::isPost()) {	
+  if (fRequest::isPost()) {
     try {
       $check->populate();
       fRequest::validateCSRFToken(fRequest::get('token'));
       $check->store();
-			
+
       fMessaging::create('affected', fURL::get(), $check->getName());
-      fMessaging::create('success', fURL::get(), 
+      fMessaging::create('success', fURL::get(),
                          'The check ' . $check->getName() . ' was successfully created');
       fURL::redirect($check_list_url);
     } catch (fExpectedException $e) {
-      fMessaging::create('error', fURL::get(), $e->getMessage());	
-    }	
-  } 
+      fMessaging::create('error', fURL::get(), $e->getMessage());
+    }
+  }
 
   if ($check_type == 'threshold') {
-    include VIEW_PATH . '/add_edit.php';	
+    include VIEW_PATH . '/add_edit.php';
   } elseif ($check_type == 'predictive') {
-    include VIEW_PATH . 'add_edit_predictive_check.php';
+    include VIEW_PATH . '/add_edit_predictive_check.php';
   }
 
 } else {
   $page_num = fRequest::get('page', 'int', 1);
-  $checks = Check::findAll($check_type,$sort,$sort_dir);
+  $checks = Check::findAll($check_type, $sort, $sort_dir, $GLOBALS['PAGE_SIZE'], $page_num);
 
   if ($check_type == 'threshold') {
     include VIEW_PATH . '/list_checks.php';
   } elseif ($check_type == 'predictive') {
-    include VIEW_PATH . 'list_predictive_checks.php';
+    include VIEW_PATH . '/list_predictive_checks.php';
   }
 
 }

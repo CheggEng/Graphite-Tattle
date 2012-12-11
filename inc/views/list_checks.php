@@ -54,9 +54,9 @@ $(document).ready(function() {
     $total_pages = ceil($checks->count(TRUE) / $GLOBALS['PAGE_SIZE']);
     if ($total_pages > 1) {
       $prev_class = 'previous';
-      $prev_link = fURL::get() . '?page=' . ($page_num - 1);
+      $prev_link = fURL::replaceInQueryString('page', $page_num -1 );
       $next_class = 'next';
-      $next_link = fURL::get() . '?page=' . ($page_num + 1);
+      $next_link = fURL::replaceInQueryString('page', $page_num + 1);
       if ($page_num == 1) {
         $prev_class .= ' disabled';
         $prev_link = '#';

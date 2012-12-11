@@ -19,11 +19,11 @@ function subarray_median($data_array) {
 
 function median($data_array) {
   sort($data_array);
-  $count = count($data_array); 
+  $count = count($data_array);
   $middleval = floor(($count-1)/2);
-  if($count % 2) { 
+  if($count % 2) {
     $median = $data_array[$middleval];
-  } else { 
+  } else {
     $low = $data_array[$middleval];
     $high = $data_array[$middleval+1];
     $median = (($low+$high)/2);
@@ -82,18 +82,28 @@ function subarray_average($data_array) {
 }
 
 function average($data_array) {
-  $count = count($data_array); 
+  $count = count($data_array);
   $total = '';
   foreach ($data_array as $value) {
-    $total = $total + $value; 
+    $total = $total + $value;
   }
-  $average = ($total/$count); 
+  $average = ($total/$count);
   return $average;
 }
 
+/**
+ * Returns the first item of the last item
+ *
+ * @param array $data_array Array of something
+ * @return mixed the first item of the last item in the array
+ */
 function subarray_endvalue($data_array) {
-  $lastDataPoint = end($data_array);
-  return($lastDataPoint[0]);
+    if ( is_array($data_array) ) {
+        $lastDataPoint = end($data_array);
+        return($lastDataPoint[0]);
+    } else {
+        return false;
+    }
 }
 
 function subarray_standard_deviation($data_array) {
@@ -117,3 +127,4 @@ function subarray_standard_deviation($data_array) {
   //Take the square root of the result from line 5
   return sqrt($sd_squared);
 }
+?>

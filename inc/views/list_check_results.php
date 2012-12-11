@@ -2,28 +2,29 @@
 $tmpl->set('title', 'Self Service Alerts based on Graphite metrics');
 $tmpl->set('graphlot',true);
 $tmpl->place('header');
+
  try {
         $check = new Check($check_id);
-	$affected = fMessaging::retrieve('affected', fURL::get());
+        $affected = fMessaging::retrieve('affected', fURL::get());
   } catch (fEmptySetException $e) {
 ?>
         <p class="info">There are currently no Tattle checks. Add a <a href="<?=Check::makeURL('add', 'threshold'); ?>">threshold</a> based or a <a href="<?=Check::makeURL('add', 'predictive'); ?>">predictive</a> based check now.</p>
         <?php
   } ?>
-    <fieldset>
-      <div style="padding-bottom:15px;">
-        <span>Name : <?=$check->prepareName(); ?></span> | 
+<fieldset>
+    <div style="padding-bottom:15px;">
+        <span>Name : <?=$check->prepareName(); ?></span> |
         <span>Target : <?=Check::constructTarget($check); ?></span>
-      </div>
-      <span><?=Check::showGraph($check,true,'-48hours',620,true); ?></span>
-    </fieldset>
+    </div>
+    <span><?=Check::showGraph($check,true,'-48hours',620,true); ?></span>
+</fieldset>
 <?php
   try {
     $check_results->tossIfEmpty();
     $affectd = fMessaging::retrieve('affected',fURL::get());
    ?>
         <a class="btn small primary" href="<?=CheckResult::makeURL('ackAll', $check = new Check($check_id)); ?>">Clear All</a>
-	<table class="zebra-striped">
+        <table class="zebra-striped">
     <tr>
     <th>Status</th>
     <th>Value</th>
@@ -31,13 +32,13 @@ $tmpl->place('header');
     <th>Warn</th>
     <th>State</th>
     <th>Time</th>
-       </tr>    
-	<?php
-	$first = TRUE;
-	foreach ($check_results as $check_result) {
+       </tr>
+<?php
+    $first = TRUE;
+    foreach ($check_results as $check_result) {
         $check = new Check($check_result->getCheck_Id());
-	?>
-    	<tr>
+?>
+        <tr>
         <td><?=$status_array[$check_result->prepareStatus()]; ?></td>
         <td><?=$check_result->prepareValue(); ?></td>
         <td><?=$check->prepareError(); ?></td>
@@ -76,9 +77,9 @@ $tmpl->place('header');
       </div>
     <?php }
 } catch (fEmptySetException $e) {
-	?>
-	<p class="info">There are currently no alerts for this checks.</p>
-	<?php
+?>
+        <p class="info">There are currently no alerts for this checks.</p>
+<?php
 }
 ?>
 <?php $tmpl->place('footer') ?>
