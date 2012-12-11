@@ -48,7 +48,7 @@ $tmpl->place('header');
             <div class="clearfix">
 	      <label class="masterTooltip" title="For some reason, Graphite's movingMedian function is broken. Median will be enabled once this is fixed" for="check-baseline">Baseline<em>*</em></label>
               <div class="input">
-                <select name="baseline" class="span3">
+                <select id="check-baseline" name="baseline" class="span3">
               <?
                 $average_array = array('average' => 'Average');
                 foreach ($average_array as $value => $text) {
