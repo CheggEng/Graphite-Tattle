@@ -21,11 +21,9 @@ $latest_alerts = 'SELECT c.check_id,name,r.status,count(c.check_id) as count, r.
                     'LIMIT ' . $GLOBALS['PAGE_SIZE'] . ' ' .
                     'OFFSET ' . $offset . ';';
 
-$results = $db->query($latest_alerts);
+$results = $mysql_db->query($latest_alerts);
 $alert_count = $results->countReturnedRows();
 
-    $results = $mysql_db->query($latest_alerts);
 
-}
 
 include 'inc/views/index.php';
