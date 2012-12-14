@@ -19,26 +19,38 @@ function opslert_plugin_settings(){
 
 function opslert_plugin_user_settings() {
   return array(
-              'alt_opslert' => array('friendly_name' => 'Monitor Id',
+              'warning_monitor_id' => array('friendly_name' => 'Warning Ops Monitor Id',
+                                   'default' => 0,
+                                   'type' => 'integer'),
+              'emergency_monitor_id' => array('friendly_name' => 'Emergency Ops Monitor Id',
                                    'default' => 0,
                                    'type' => 'integer')
              );
 }
 function opslert_plugin_send_methods(){
-  return array('opslert_plugin_notify' => 'opslert');
+  return array('opslert_plugin_notify_warning' => 'Ops Warning','opslert_plugin_notify_emergency' => 'Ops Emergency');
 }
+
+function opslert_plugin_notify_warning($check,$check_result,$subscription) {
+	return opslert_plugin_notify($check,$check_result,$subscription,0);
+}
+function opslert_plugin_notify_emergency($check,$check_result,$subscription) {
+	return opslert_plugin_notify($check,$check_result,$subscription,1);
+}
+
 
 //opslert plugin
 function opslert_plugin_notify($check,$check_result,$subscription,$alt_opslert) {
   global $status_array;
   $user = new User($subscription->getUserId());
-
-  $email->addRecipient($email_address, $user->getUsername());
   
   $state = $status_array[$check_result->getStatus()];
   
   $alert_baseurl = "http://" . sys_var('ops_alert_server') . "/cgi-bin/alert";
-  $alert_id = $alt_opslert;
+  if ($alt_opslert)
+  	$alert_id = usr_var('emergency_monitor_id');
+  else
+  	$alert_id = usr_var('warning_monitor_id');
   $alert_object = urlencode($check->prepareName());
   $alert_link = urlencode($GLOBALS['TATTLE_DOMAIN'] . '/' . CheckResult::makeURL('list',$check_result));
   $alert_host = urlencode($GLOBALS['TATTLE_DOMAIN'] .':' . $user->getEmail());
@@ -58,6 +70,6 @@ function opslert_plugin_notify($check,$check_result,$subscription,$alt_opslert) 
 
 
 	$response = http_get($alert_url, array("timeout"=>10), $info);
-	print_r($info);
+	log_action("opslerting to $alert_url\nResult: $response");
 
 }
