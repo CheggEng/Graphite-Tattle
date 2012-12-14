@@ -48,9 +48,9 @@ function opslert_plugin_notify($check,$check_result,$subscription,$alt_opslert) 
   
   $alert_baseurl = "http://" . sys_var('ops_alert_server') . "/cgi-bin/alert";
   if ($alt_opslert)
-  	$alert_id = usr_var('emergency_monitor_id');
+  	$alert_id = usr_var('emergency_monitor_id',$user->getUserId());
   else
-  	$alert_id = usr_var('warning_monitor_id');
+  	$alert_id = usr_var('warning_monitor_id',$user->getUserId());
   $alert_object = urlencode($check->prepareName());
   $alert_link = urlencode($GLOBALS['TATTLE_DOMAIN'] . '/' . CheckResult::makeURL('list',$check_result));
   $alert_host = urlencode($GLOBALS['TATTLE_DOMAIN'] .':' . $user->getEmail());
