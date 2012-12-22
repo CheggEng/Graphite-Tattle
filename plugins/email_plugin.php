@@ -48,8 +48,16 @@ function email_plugin_send_methods(){
   return array('email_plugin_notify' => 'Email','email_plugin_alt_notify' => 'Alternative Email');
 }
 
+
+function email_plugin_notify($check,$check_result,$subscription) {
+	return email_plugin_notify_master($check,$check_result,$subscription,false);
+}
+function email_plugin_alt_notify($check,$check_result,$subscription) {
+	return email_plugin_notify_master($check,$check_result,$subscription,true);
+}
+
 //email plugin
-function email_plugin_notify($check,$check_result,$subscription,$alt_email=false) {
+function email_plugin_notify_master($check,$check_result,$subscription,$alt_email=false) {
   global $status_array;
   $user = new User($subscription->getUserId());
   $email = new fEmail();

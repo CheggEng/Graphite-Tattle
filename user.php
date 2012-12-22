@@ -43,6 +43,10 @@ if ('edit' == $action) {
 // --------------------------------- //
 } elseif ('add' == $action) {
   $user = new User();
+  if ($user->getEmail()=="" && $GLOBALS['ALLOW_HTTP_AUTH'])
+  {
+  	$user->setEmail($_SERVER['PHP_AUTH_USER']);
+  }
   if (fRequest::isPost()) {	
     try {
       $user->populate();

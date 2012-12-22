@@ -10,7 +10,7 @@ $tmpl->place('header');
             <div class="clearfix">
 	      <label for="user-username">User Name<em>*</em></label>
               <div class="input">
-	       <? if ($GLOBALS['ALLOW_HTTP_AUTH']) { 
+	       <? if ($GLOBALS['ALLOW_HTTP_AUTH'] ) { 
                   echo $_SERVER['PHP_AUTH_USER']; ?>
                 <input id="user-username" class="span3" type="hidden" name="username" value="<?=$_SERVER['PHP_AUTH_USER']; ?>"> 
               <?  } else { ?>

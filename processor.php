@@ -89,7 +89,7 @@ foreach ($checks as $check) {
       $subscriptions = Subscription::findAll($check->getCheckId());
       foreach ($subscriptions as $subscription) {
         $notify_function = $subscription->getMethod();
-        if (function_exists($notify_function)){
+        if (function_exists($notify_function) && $subscription->getStatus() == 0 ){
          $notify_result = $notify_function($check,$check_result,$subscription);
          $number_of_emails += 1;
         }

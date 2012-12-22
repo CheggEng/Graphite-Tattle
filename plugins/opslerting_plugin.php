@@ -19,7 +19,7 @@ function opslert_plugin_settings(){
 
 function opslert_plugin_user_settings() {
   return array(
-              'warning_monitor_id' => array('friendly_name' => 'Warning Ops Monitor Id',
+              'warning_monitor_id' => array('friendly_name' => 'Business Hours Ops Monitor Id',
                                    'default' => 0,
                                    'type' => 'integer'),
               'emergency_monitor_id' => array('friendly_name' => 'Emergency Ops Monitor Id',
@@ -28,7 +28,7 @@ function opslert_plugin_user_settings() {
              );
 }
 function opslert_plugin_send_methods(){
-  return array('opslert_plugin_notify_warning' => 'Ops Warning','opslert_plugin_notify_emergency' => 'Ops Emergency');
+  return array('opslert_plugin_notify_warning' => 'Page Business Hours','opslert_plugin_notify_emergency' => 'Page Emergency');
 }
 
 function opslert_plugin_notify_warning($check,$check_result,$subscription) {
