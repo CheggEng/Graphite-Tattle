@@ -56,8 +56,10 @@ function opslert_plugin_notify($check,$check_result,$subscription,$alt_opslert) 
   $alert_host = urlencode($GLOBALS['TATTLE_DOMAIN'] .':' . $user->getEmail());
 
   $state_email_injection = $state . " Alert ";
+  $mode="id";
   if($state == 'OK') {
     $state_email_injection = "Everything's back to normal ";
+    $mode="ping";
   }
   $check_type = '';
   if($check->getType() == 'threshold') {
@@ -66,7 +68,7 @@ function opslert_plugin_notify($check,$check_result,$subscription,$alt_opslert) 
     $check_type = ' Standard Deviation';
   }
   $alert_note =  urlencode("<p>" . $state_email_injection . "for {$check->prepareName()} </p><p>The check returned {$check_result->prepareValue()}</p><p>Warning" . $check_type  . " is : ". $check->getWarn() . "</p><p>Error" . $check_type . " is : ". $check->getError() . '</p><p>View Alert Details : <a href="' . $GLOBALS['TATTLE_DOMAIN'] . '/' . CheckResult::makeURL('list',$check_result) . '">'.$check->prepareName()."</a></p>");
-  $alert_url = "$alert_baseurl?id=$alert_id&object=$alert_object&link=$alert_link&host=$alert_host&note=$alert_note";
+  $alert_url = "$alert_baseurl?$mode=$alert_id&object=$alert_object&link=$alert_link&host=$alert_host&note=$alert_note";
 
 
 	$response = http_get($alert_url, array("timeout"=>10), $info);
